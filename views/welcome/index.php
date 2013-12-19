@@ -1,0 +1,1 @@
+<p> Welcome to my Framework. This is the default view </p>
