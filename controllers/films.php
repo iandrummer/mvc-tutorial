@@ -42,7 +42,9 @@ Class Films extends Controller {
 
                 $this->form = new Form( $fields );
 
-                $this->form->add_rule( 'title', 'required');
+                // $this->form->addRule( 'title', 'required');
+
+                $this->form->addCallback( 'title', array( $this, 'myRequired') );
 
                 $this->form->validate();
 
@@ -126,6 +128,17 @@ Class Films extends Controller {
         $this->film_model->deleteReview( $filmId );
 
         header('Location: ' . SITE_URL . 'films');
+
+    }
+
+
+    public function myRequired( $postData, $field ) {
+
+        if ( empty( $postData[ $field ] ) ) {
+
+            return "This field is required innit";
+
+        }
 
     }
 

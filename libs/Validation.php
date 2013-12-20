@@ -13,20 +13,9 @@ Class Validation {
 
     }
 
-    public function minlength($data, $arg){
+    public function minlength( $data, $arg ){
 
-        if (strlen($data) < $arg) {
-
-            return "Your string can only be $arg long";
-
-        }
-
-    }
-
-
-    public function maxlength($data, $arg) {
-
-        if (strlen($data) > $arg) {
+        if ( strlen( $data ) < $arg ) {
 
             return "Your string can only be $arg long";
 
@@ -34,9 +23,20 @@ Class Validation {
 
     }
 
-    public function digit($data) {
 
-        if (ctype_digit($data) == false) {
+    public function maxlength( $data, $arg ) {
+
+        if ( strlen( $data ) > $arg ) {
+
+            return "Your string can only be $arg long";
+
+        }
+
+    }
+
+    public function digit( $data ) {
+
+        if ( ctype_digit( $data ) == false ) {
 
             return "Your string must be a digit";
 
@@ -44,7 +44,7 @@ Class Validation {
 
     }
 
-    public function required($data) {
+    public function required( $data ) {
 
         if ( empty( $data ) ) {
 
@@ -54,7 +54,7 @@ Class Validation {
 
     }
 
-    public function __call($name, $arguments) {
+    public function __call( $name, $arguments ) {
 
        throw new Exception("$name does not exist inside of: " . __CLASS__);
 

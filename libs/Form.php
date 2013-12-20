@@ -21,6 +21,11 @@ Class Form {
 
     }
 
+    /**
+     * Grabs the relevant fields from the $_POST variables
+     * @param  Array $fields Fields to be grabbed
+     * @return Object  The Form object
+     */
     private function _grabPostData( $fields ) {
 
         foreach( $fields as $field ) {
@@ -37,7 +42,12 @@ Class Form {
 
     }
 
-    public function add_rule( $field, $validators ) {
+    /**
+     * Adds a rule to the validation call
+     * @param string $field      Name of the field to be validated
+     * @param string $validators Pipe (|) seperated list with arguments (if any) contained in square brackets
+     */
+    public function addRule( $field, $validators ) {
 
         $validators = explode( '|', $validators);
 
@@ -79,6 +89,24 @@ Class Form {
     }
 
 
+    public function addCAllback( $field, $nameOfFunction ) {
+
+        $error = $nameOfFunction[0]::$nameOfFunction[1]( $this->_postData, $field );
+
+        if ( $error ) {
+
+            $this->_error[ $field ][ $nameOfFunction[1] ] = $error;
+
+        }
+
+        return $this;
+
+    }
+
+    /**
+     * The execution method of the Form handler. This checks to see if there are any errors
+     * @return boolean|Exception Either returns true or an exception
+     */
     public function validate() {
 
         if ( empty( $this->_error ) ) {
@@ -109,7 +137,10 @@ Class Form {
 
     }
 
-
+    /**
+     * Public method to allow people to grab data
+     * @return Array The post data
+     */
     public function grabData() {
 
         return $this->_postData;

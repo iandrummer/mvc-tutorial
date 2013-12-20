@@ -4,7 +4,7 @@
 
     <ul>
 
-       <li>
+        <li>
 
             <label for="title">Title</label><input id="title" name="title" type="text" />
 
@@ -43,7 +43,7 @@
 
 <hr>
 
-<?php if ( isset( $this->reviews) ) : ?>
+<?php if ( isset( $this->reviews ) ) : ?>
 
     <table>
 

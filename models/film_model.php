@@ -17,7 +17,7 @@ Class Film_Model extends Model {
      * @return null
      */
     public function createReview( $data ) {
-        
+
         $this->db->insert('films', $data );
 
     }
