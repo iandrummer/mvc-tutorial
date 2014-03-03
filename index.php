@@ -1,6 +1,6 @@
-<?php 
-
-
+<?php
+// launchctl unload -w ~/Library/LaunchAgents/homebrew-php.josegonzalez.php54.plist
+// 
 require 'config.php';
 
 /**

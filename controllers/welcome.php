@@ -12,4 +12,9 @@ Class Welcome extends Controller {
 
     }
 
+    public function louis() {
+
+        $this->view->render('welcome/louis');
+    }
+
 }

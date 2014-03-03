@@ -9,6 +9,8 @@ Class Films extends Controller {
      */
     public function __construct() {
 
+        session_start();
+
         parent::__construct();
 
         $this->film_model = new Film_Model();
@@ -83,7 +85,7 @@ Class Films extends Controller {
 
                 $this->form = new Form( $fields );
 
-                $this->form->add_rule( 'title', 'required');
+                $this->form->addRule( 'title', 'required');
 
                 $this->form->validate();
 
@@ -131,7 +133,12 @@ Class Films extends Controller {
 
     }
 
-
+    /**
+     * Example of a custom callback
+     * @param  Array $postData $_POST data
+     * @param  string $field    The name of the field that this will apply to
+     * @return string|boolean
+     */
     public function myRequired( $postData, $field ) {
 
         if ( empty( $postData[ $field ] ) ) {

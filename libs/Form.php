@@ -88,7 +88,11 @@ Class Form {
 
     }
 
-
+    /**
+     * Pass in a custom call back function
+     * @param string $field          Name of the field to validate
+     * @param Array $nameOfFunction Contains the object and name of method to call.
+     */
     public function addCAllback( $field, $nameOfFunction ) {
 
         $error = $nameOfFunction[0]::$nameOfFunction[1]( $this->_postData, $field );

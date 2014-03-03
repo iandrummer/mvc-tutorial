@@ -5,6 +5,8 @@ class Bootstrap {
 
     private $_url = null;
     private $_controller = null;
+    private $_method = 'index';
+    private $_params = array();
 
     private $_controllerPath = 'controllers/';
     private $_errorFile = 'error.php';
@@ -14,16 +16,6 @@ class Bootstrap {
 
 
         $this->_getURL();
-
-        if ( empty( $this->_url[0] ) ) {
-
-            $this->_loadDefaultController();
-
-            return false;
-
-        }
-
-        $this->_loadExistingController();
 
     }
 
@@ -40,9 +32,40 @@ class Bootstrap {
 
         $url = rtrim( $url, '/' );
 
-        $url = explode('/', $url );
+        $url = explode('/', $url, 3 );
 
         $this->_url = $url;
+
+        @list( $controller, $method, $params ) = $url;
+
+        if ( empty( $this->_url[0] ) ) {
+
+            $this->_loadDefaultController();
+
+            return false;
+
+        }
+
+        if ( isset( $controller ) ) {
+
+            $this->_loadExistingController();
+
+        }
+
+        if ( isset( $method ) ) {
+
+            $this->_callControllerMethod();
+
+        }
+
+        if ( isset( $params ) ) {
+
+            $this->_loadParam( explode('/', $params ) );
+
+        }
+
+        $this->_run();
+
 
     }
 
@@ -75,8 +98,6 @@ class Bootstrap {
 
             $this->_controller = new $this->_url[0]();
 
-            $this->_callControllerMethod();
-
         } else {
 
             $this->_error();
@@ -84,6 +105,8 @@ class Bootstrap {
             return false;
 
         }
+
+        return $this;
 
     }
 
@@ -107,37 +130,55 @@ class Bootstrap {
 
         }
 
-        switch ( $length ) {
+        $this->_method = $this->_url[1];
 
-            case 5: 
+        return $this;
 
-                $this->_controller->{$this->_url[1]}( $this->_url[2], $this->_url[3], $this->_url[4] );
+        // switch ( $length ) {
 
-                break;
+        //     case 5: 
 
-            case 4: 
+        //         $this->_controller->{$this->_url[1]}( $this->_url[2], $this->_url[3], $this->_url[4] );
 
-                $this->_controller->{$this->_url[1]}( $this->_url[2], $this->_url[3] );
+        //         break;
 
-                break;
+        //     case 4: 
 
-            case 3: 
+        //         $this->_controller->{$this->_url[1]}( $this->_url[2], $this->_url[3] );
 
-                $this->_controller->{$this->_url[1]}( $this->_url[2] );
+        //         break;
 
-                break;
+        //     case 3: 
 
-            case 2: 
+        //         $this->_controller->{$this->_url[1]}( $this->_url[2] );
 
-                $this->_controller->{$this->_url[1]}();
+        //         break;
 
-                break;
+        //     case 2: 
 
-            default: 
+        //         $this->_controller->{$this->_url[1]}();
 
-                $this->_controller->index();
+        //         break;
 
-        }
+        //     default: 
+
+        //         $this->_controller->index();
+
+        // }
+
+    }
+
+    private function _loadParam( $params ) {
+
+        $this->_params = $params;
+
+        return $this;
+
+    }
+
+    private function _run() {
+
+        call_user_func_array( array($this->_controller, $this->_method ), $this->_params );
 
     }
 
