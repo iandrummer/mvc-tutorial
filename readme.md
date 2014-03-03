@@ -1,4 +1,4 @@
-mvc-turoal
+mvc-tutorial
 ==========
 
 ## About
